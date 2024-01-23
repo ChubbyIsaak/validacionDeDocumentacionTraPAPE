@@ -1,0 +1,21 @@
+{
+  "name": "qrCodeExtractor",
+  "version": "1.0.0",
+  "description": "Un extractor de codigos QR en documentos para convertirlos en imagenes",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js"
+  },
+  "dependencies": {
+    "aws-sdk": "^2.1030.0",
+    "express": "^4.17.1",
+    "pdf-parse": "^1.1.1",
+    "qrcode-reader": "^1.0.3",
+    "sharp": "^0.29.3",
+    "tesseract.js": "^2.1.1",
+    "pdf2image": "^1.2.0",
+    "jimp": "^0.22.10",
+    "jsqr": "^1.4.0",
+    "pdf-poppler": "^0.2.1"
+  }
+}

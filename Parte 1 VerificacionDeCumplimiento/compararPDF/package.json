@@ -1,0 +1,13 @@
+{
+    "name": "document-comparison-lambda",
+    "version": "1.0.0",
+    "description": "Lambda function to compare documents using AWS Textract",
+    "main": "index.js",
+    "dependencies": {
+        "aws-sdk": "^2.1030.0"
+        // Include any other dependencies you might need
+    },
+    "scripts": {
+        "start": "node index.js"
+    }
+}
