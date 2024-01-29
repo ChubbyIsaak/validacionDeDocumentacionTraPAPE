@@ -16,7 +16,8 @@ exports.handler = async (event) => {
     console.log("Received event: ", JSON.stringify(event, null, 2));
 
     const record = event.Records[0];
-    const bucket = record.s3.bucket.name;
+    // Replace the bucket name with "trapape-s3"
+    const bucket = "trapape-s3";
     const key = decodeURIComponent(record.s3.object.key.replace(/\+/g, ' '));
     const tempFilePath = `/tmp/${path.basename(key)}`;
     const fileExt = path.extname(key).toLowerCase();
@@ -62,7 +63,11 @@ async function processImage(imagePath, bucket, keyPrefix) {
         console.log(`Found QR code: ${qrCode.data}`);
         const cropped = image.crop(qrCode.location.topLeftCorner.x, qrCode.location.topLeftCorner.y, qrCode.location.dimension.x, qrCode.location.dimension.y);
         const buffer = await cropped.getBufferAsync(Jimp.MIME_JPEG);
-        const s3Key = `${keyPrefix}/qr.jpg`;
+
+        // Specify the folder path where you want to upload the QR code image
+        const uploadFolderPath = "/DocumentosAProcesar/VerificacionDeOpinionDeCumplimiento/CodigoQRExtraido/";
+        const s3Key = `${uploadFolderPath}qr_${Date.now()}.jpg`;
+
         await uploadToS3(bucket, s3Key, buffer);
         console.log(`QR code image uploaded to ${s3Key}`);
     } else {
@@ -83,9 +88,10 @@ function findQRCodeInImage(image) {
 }
 
 async function uploadToS3(bucket, key, buffer) {
+    // Use the updated bucket name and prepend the desired file location to the key
     await s3.putObject({
         Bucket: bucket,
-        Key: `VerificacionDeOpinionDeCumplimiento/CodigoQRExtraido/qrextraido__${Date.now()}.pdf`,
+        Key: `/DocumentosAProcesar/VerificacionDeOpinionDeCumplimiento/CodigoQRExtraido/${key}`,
         Body: buffer,
         ContentType: 'image/jpeg'
     }).promise();
